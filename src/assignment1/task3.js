@@ -13,13 +13,6 @@ const a = [
   { id: 10, parentId: 5 },
 ];
 
-
-// function to get all parent id's
-function getParents(data) {
-  const output = [...new Set(data.map((x) => x.parentId))];
-  return output.splice(1);
-}
-
 // get first children of parent id
 function getChildren(parentId, data) {
   const output = [];
@@ -33,11 +26,12 @@ function getChildren(parentId, data) {
 
 // get All children of parentId
 function getAllChildren(parentId, data) {
-  const parents = getParents(data);
-
+  const parents = [...new Set(data.map((x) => x.parentId))]; // get all unique parent ids
+  
   let output = getChildren(parentId, data);
 
   for (let i = 0; i < output.length; i++) {
+    // traverse thorugh output and add new ids
     if (parents.includes(output[i])) {
       const newOutput = getChildren(output[i], data);
       output = output.concat(newOutput);
@@ -46,21 +40,19 @@ function getAllChildren(parentId, data) {
   return output;
 }
 
+// console.log(getAllChildren(1,a))
 // show data on homepage
-function changeHandler(){
-    const selectBox = document.getElementById("selectBox");
-    const selectedValue=selectBox.options[selectBox.selectedIndex].value
-    const data = getAllChildren(+selectedValue,a)
-    document.getElementById('root').innerHTML=data
-
+function changeHandler() {
+  const selectBox = document.getElementById("selectBox");
+  const selectedValue = selectBox.options[selectBox.selectedIndex].value;
+  const data = getAllChildren(+selectedValue, a);
+  document.getElementById("root").innerHTML = data;
 }
-// console.log(getParents(a));
-// console.log(getChildren(1, a));
-// console.log(getAllChildren(2, a));
-// /*
-// output will be:
-// // if user select id 1
-// const b = [2,3,4,5,6,7,8,9,10];
-// // if user select id 5
-// const b = [7,8,9,10];
-// */
+
+/*
+output will be:
+// if user select id 1
+const b = [2,3,4,5,6,7,8,9,10];
+// if user select id 5
+const b = [7,8,9,10];
+*/
