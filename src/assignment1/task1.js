@@ -32,4 +32,8 @@ function replaceNameToAlais(alaisArray, dataArray) {
 }
 
 const c = replaceNameToAlais(a, b);
-console.log(c);
+
+function showResults() {
+  document.getElementById("root").innerHTML = c;
+  console.log(c)
+}
